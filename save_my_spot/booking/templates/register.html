@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block body %}
+<!-- Page Header-->
+<header class="masthead" style="background-color: #0085A1">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Registration</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Registration Form -->
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="my-5">
+                    <form action="/register" method="POST">
+                        {% csrf_token %}
+                        <label for="account_type">What type of account do you want ?</label>
+                        <select name="account_type" id="account_type">
+                            <option value=""></option>
+                            <option value="club">Club or Company</option>
+                            <option value="approach">Approach Control</option>
+                            <option value="airport_manager">Airport Manager</option>
+                        </select>
+                        <div id ="register_form" style="display:none;">
+                            <div class="form-floating club approach airport_man register">
+                                <input class="form-control" id="username" name="username" type="text" placeholder="Name..."/>
+                                <label for="username">Name</label>
+                            </div>
+                            <div class="form-floating field club airport_man" style="display:none;">
+                                <input class="form-control" id="adress" name="adress" type="text" placeholder="Adress..."/>
+                                <label for="adress">Adress</label>
+                            </div>
+                            <div class="form-floating field club" style="display:none;">
+                                <input class="form-control" id="country" name="country" type="text" placeholder="Country..."/>
+                                <label for="country">Country</label>
+                            </div>
+                            <div class="form-floating field club approach airport_man">
+                                <input class="form-control" id="username" name="username" type="email" placeholder="Email..."/>
+                                <label for="username">Email</label>
+                            </div>
+                            <div class="form-floating field  club approach airport_man">
+                                <input class="form-control" id="phone" name="phone" type="tel" placeholder="Phone number..."/>
+                                <label for="phone">Téléphone</label>
+                            </div>
+                            <div class="form-floating field club approach airport_man">
+                                <input class="form-control" id="password" name="password" type="password" placeholder="Password..."/>
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="form-floating field club approach airport_man">
+                                <input class="form-control" id="password_conf" name="password_conf" type="password" placeholder="Password Confirmation..."/>
+                                <label for="password_conf">Password Confirmation</label>
+                            </div>
+                            <button class="btn btn-primary" style="border-radius: 20%; margin: 15px;" id="submitButton" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}

@@ -26,3 +26,31 @@ window.addEventListener('DOMContentLoaded', () => {
         scrollPos = currentTop;
     });
 })
+
+window.addEventListener('DOMContentLoaded', () => {
+    const choice = document.getElementById('account_type')
+    choice.addEventListener('change', change_fields);
+})
+
+function change_fields() {
+    choice = document.getElementById('account_type').value;
+    liste = document.querySelectorAll('.field');
+    liste.forEach(element => element.style.display = 'none');
+
+    if (choice == 'club')  {
+        liste = document.querySelectorAll('.club');
+        liste.forEach(element => element.style.display = 'block');
+        }
+    else
+        if (choice == 'approach')   {
+        liste = document.querySelectorAll('.approach');
+        liste.forEach(element => element.style.display = 'block');
+        }
+    else
+        if (choice == 'airport_manager')    {
+        liste = document.querySelectorAll('.airport_man');
+        liste.forEach(element => element.style.display = 'block');
+        }
+    
+    document.querySelector('#register_form').style.display = 'block';
+}
