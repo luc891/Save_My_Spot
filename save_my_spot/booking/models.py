@@ -12,6 +12,9 @@ class User(AbstractUser):
     username = models.CharField(max_length = 254, unique = True)
     email = models.EmailField(max_length = 254)
     phone = models.CharField(max_length = 24)
+    is_club = models.BooleanField(default = False)
+    is_approach = models.BooleanField(default = False)
+    is_airport_man = models.BooleanField(default = False)
 
 
     def __str__(self):
