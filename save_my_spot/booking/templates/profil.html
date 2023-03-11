@@ -2,34 +2,6 @@
 {% load static %}
 {% block body %}
 
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('#personnal-btn').addEventListener('click', () => sectionDisplay ('#personnal'));
-        document.querySelector('#game-btn').addEventListener('click', () => sectionDisplay ('#add-game'));
-        document.querySelector('#games-btn').addEventListener('click', () => sectionDisplay ('#my-games'));
-        document.querySelector('#modify_info').addEventListener('click', function() {
-            document.querySelector('#current_info').style.display = 'none';
-            document.querySelector('#modif_info').style.display = 'block';
-            document.querySelector('#modif_password').style.display = 'none';
-        });
-        document.querySelector('#modify_password').addEventListener('click', function() {
-            document.querySelector('#current_info').style.display = 'none';
-            document.querySelector('#modif_info').style.display = 'none'
-            document.querySelector('#modif_password').style.display = 'block';
-        });
-        document.querySelector('#news-btn').addEventListener('click', () => sectionDisplay ('#add-news'));
-    
-    function sectionDisplay(id) {
-        var elements = document.querySelectorAll('.section')
-        elements.forEach(element => element.style.display = 'none');
-        document.querySelector(id).style.display = 'block';
-        document.querySelector('#current_info').style.display = 'block';
-        document.querySelector('#modif_info').style.display = 'none';
-        document.querySelector('#modif_password').style.display = 'none'
-    };
-});
-
-</script>
 
 <!-- Page Header-->
 <header class="masthead" style="background-color: #0085A1">
@@ -50,7 +22,7 @@
     <!-- Left-side Nav Menu -->
     <div class="sidebar">
         <ul style="text-align: left;">
-            <li><button type="button" class="btn btn-primary" id="personnal-btn">Profil</button></li>
+            <li><button type="button" class="btn btn-primary" id="personnal-btn">Your informations</button></li>
             {% if user.is_club %}
             <li><button type="button" class="btn btn-primary" id="plane-btn">Add a plane</button></li>
             {% endif %}
@@ -93,10 +65,6 @@
                         <td>Phone</td>
                         <td>{{user.phone}}</td>
                     </tr>
-                    <tr>
-                        <td>Téléphone</td>
-                        <td>{{user.phone}}</td>
-                    </tr>
                     {% if user.is_club or user.is_airport_man %}
                     <tr>
                         <td>Adress</td>
@@ -115,7 +83,7 @@
         </div>
 
         <!-- Edit details -->
-        <div class="container px-4 px-lg-5" style="display:none;" id="modif_info">
+        <div class="container px-4 px-lg-5">
             <form action="/modify" method="POST" >
                 {% csrf_token %}
                 <table class="table">
@@ -153,8 +121,8 @@
             </form>
         </div>
 
-    <!-- Add a Game From-->
-    <div class="mb-4 section" id="add-plane" style="display:none;">
+    <!-- Add a Plane Form-->
+    <div class="mb-4 section" id="add-plane">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -181,49 +149,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Writing a news -->
-    <div class="mb-4 section" id="add-news"  style="display:none;">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <div class="my-5">
-                        <div class="alert alert-danger" role="alert">{{message}}</div>  
-                        <form action="/index" method="POST">
-                            {% csrf_token %}
-                            <div class="form-floating" >
-                                <input type="text" class="form-control" id="text" name="text"  placeholder="News"/>
-                                <label for="text">Texte</label>
-                            </div>
-                            <div style="max-width: 200px; margin: auto;"><button class="btn btn-primary" style="border-radius: 20%; margin: 15px;" id="submitButton" type="submit">Envoyer</button></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- My Games -->
-    <div class="row mb-2 section" id="my-games" style="display:none;">
-        {% for game in games %}
-            <div class="col-md-6 jeu '{{game.genre}}'' " style="float: left;">
-                <a class="text-dark" href="{% url 'game' game.title %}">
-                    <div class="card flex-md-row mb-4 box-shadow h-md-250" >
-                        <div class="card-body d-flex flex-column align-items-start">
-                        <strong class="d-inline-block mb-2 text-primary category">{{game.genre}}</strong>
-                        <h3 class="mb-0">{{game.title}}</h3>
-                        {% if game.extension %}
-                        <div class="mb-1 text-muted">Extension</div>
-                        {% endif %}
-                        <p class="card-text mb-auto">{{ game.description|truncatechars:250 }}</p>
-                        <strong class="d-inline-block mb-2 text-primary">A partir de <strong class="age">{{game.min_age}}</strong> ans</strong>
-                        </div>
-                        <img class="card-img-right flex d-none d-md-block" height="200px" style="margin-top: 10px; margin-right: 5px;" src="{{game.cover}}">
-                    </div>
-                </a>
-            </div>
-        {%endfor%}  
     </div>
 </main>
 

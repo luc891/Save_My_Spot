@@ -22,6 +22,9 @@
                 <div class="my-5">
                     <form action="/register" method="POST">
                         {% csrf_token %}
+                        <div>
+                            <h5>{{error}}</h5>
+                        </div>
                         <label for="account_type">What type of account do you want ?</label>
                         <select name="account_type" id="account_type">
                             <option value=""></option>
@@ -38,9 +41,14 @@
                                 <input class="form-control" id="adress" name="adress" type="text" placeholder="Adress..."/>
                                 <label for="adress">Adress</label>
                             </div>
-                            <div class="form-floating field club" style="display:none;">
-                                <input class="form-control" id="country" name="country" type="text" placeholder="Country..."/>
-                                <label for="country">Country</label>
+                            <div class="field club" style="display:none;">
+                                <select class="form-control" id="country" name="country" type="text" placeholder="Country...">
+                                    <option value=None>Select your country</option>
+                                    {% for country in choice %}
+                                    <option value={{country.0}}>{{country.1}}</option>
+                                    {% endfor %}
+                                <label for=country>Country</label>
+                                </select>
                             </div>
                             <div class="form-floating field club approach airport_man">
                                 <input class="form-control" id="email" name="email" type="email" placeholder="Email..."/>

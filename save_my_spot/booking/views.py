@@ -3,50 +3,49 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.password_validation import validate_password
 
-from .forms import ClubCreationForm, ApproachCreationForm, AirportmanagerCreationForm
-from .models import Club, Approach, Airport_manager
+from .models import User, COUNTRIES
+from .functions import matching_password
 
+# Landing view
 def index(request):
     return render(request, 'index.html')
 
+# Create account view
 def register(request):
     if request.method == 'GET':
-        return render(request, 'register.html')
-    else:
-        choice = request.POST['account_type']
+        choice = COUNTRIES
+        return render(request, 'register.html', {
+                       'choice' : choice
+                    })
+    else:             
+        user = User.objects.create_user(username = request.POST['username'],
+                                        email = request.POST['email'],
+                                        phone = request.POST['phone'],
+                                        adress = request.POST['adress'],
+                                        country = request.POST['country'])
+        
+        choice = request.POST['account_type'] 
         if choice == 'club':
-            form = ClubCreationForm(request.POST)
-            if form.is_valid():
-                new_object = Club.objects.create_user(form.cleaned_data['username'],
-                                                      form.cleaned_data['email'],
-                                                      form.cleaned_data['phone'],
-                                                      form.cleaned_data['adress'],
-                                                      form.cleaned_data['country'],
-                                                      is_club = True)
-            else:
-                print(form.errors)
+            user.is_club = True
         elif choice == 'approach':
-            form = ApproachCreationForm(request.POST)
-            if form.is_valid():
-                new_object = Approach.objects.create_user(form.cleaned_data['username'],
-                                                          form.cleaned_data['email'],
-                                                          form.cleaned_data['phone'],
-                                                          is_approach = True)
-            else:
-                print(form.errors)
+            user.is_approach = True
         else:
-            form = AirportmanagerCreationForm(request.POST)
-            if form.is_valid():
-                new_object = Airport_manager.objects.create_user(form.cleaned_data['username'],
-                                                                 form.cleaned_data['email'],
-                                                                 form.cleaned_data['phone'],
-                                                                 form.cleaned_data['adress'],
-                                                                 is_airport_man = True)
-            else:
-                print(form.errors)
-        new_object.save()
-        return render(request, 'index.html')
+            user.is_airport_man = True
+        
+        if (result := matching_password(request.POST)) == True:
+            user.set_password(request.POST['password2'])
+
+            user.save()
+            login(request, user) 
+            return render(request, 'profil.html')
+        
+        else:
+            user.delete()
+            return render(request, 'register.html',{
+                'error': result
+            })
 
 
 def loginview(request):
@@ -58,7 +57,9 @@ def loginview(request):
             login(request, user)
             return HttpResponseRedirect(reverse("profil"))
         else:
-            return render(request, 'login.html')
+            return render(request, 'login.html', {
+                'message' : 'Invalid credentials'
+            })
 
 @login_required
 def logoutview(request):
@@ -66,4 +67,4 @@ def logoutview(request):
     return HttpResponseRedirect(reverse('index'))
 
 def profil(request):
-    ...
+    return render(request, 'profil.html')

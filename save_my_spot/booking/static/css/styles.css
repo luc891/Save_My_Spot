@@ -350,6 +350,10 @@ button:focus:not(:focus-visible) {
   outline: 0;
 }
 
+#country {
+  color: #6c757d;
+}
+
 input,
 button,
 select,
