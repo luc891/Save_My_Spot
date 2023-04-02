@@ -8,6 +8,12 @@ COUNTRIES = (
     ('OTHER', 'Other')
 )
 
+LOCATIONS = (
+    ('BASEL', 'lfsb'),
+    ('DIJON', 'lfsd'),
+    ('DÔLE', 'lfgj')
+)
+
 class User(AbstractUser):
     username = models.CharField(max_length=254, unique = True)
     email = models.EmailField(max_length=254)

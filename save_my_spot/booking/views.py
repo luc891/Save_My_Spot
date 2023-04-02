@@ -1,16 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
 
-from .models import User, COUNTRIES
+from .models import User, COUNTRIES, LOCATIONS
 from .functions import matching_password
 
 # Landing view
 def index(request):
-    return render(request, 'index.html')
+    locations = LOCATIONS
+    return render(request, 'index.html', {
+                  'locations' : locations
+                  })
 
 # Create account view
 def register(request):
@@ -68,3 +71,7 @@ def logoutview(request):
 
 def profil(request):
     return render(request, 'profil.html')
+
+def reserve_time(request, location_id):
+    calendar_url = location.calendar_url
+    return render(request, 'reserve_time.html', {'calendar_url': calendar_url})

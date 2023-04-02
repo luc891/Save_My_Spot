@@ -16,24 +16,27 @@
 </header>
 
 <!-- News Posts -->
-    <div>
-        <div>
-            <div class="title">
-                <h3>Nos Actualités</h3>
-            </div>
-            </div>
-            {% for info in news %}
-            <article class="mb-4">
-                <div class="container px-4 px-lg-5">
-                    <div class="row gx-4 gx-lg-5 justify-content-center">
-                        <div class="col-md-10 col-lg-8 col-xl-7">
-                            <h4>Par {{info.user}} le {{info.date}}</h4>
-                            <p>{{info.text}}</p>
-                        </div>
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="my-5">
+                    {% if user.is_club == True %}
+                    <div class="title">
+                        <h3>Save your spot</h3>
                     </div>
+                    <select class="form-control" id="location" name="location" type="text" placeholder="Country...">
+                        <option value=None>Select your training location</option>
+                        {% for location in locations %}
+                        <option value={{location.0}}>{{location.1}}</option>
+                        {% endfor %}
+                    <label for=location>Location</label>
+                    </select>
+                    </div>
+                    {% endif %}
                 </div>
-            </article>
-            {% endfor %}
+            </div> 
         </div>
     </div>
+</main>
 {% endblock %}
