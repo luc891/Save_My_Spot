@@ -14,3 +14,13 @@ def matching_password(self):
     except Exception as e:
         return e.messages[0]
     
+def get_password_error_message(error_code):
+    if error_code == 'Your passwords do not match':
+        return 'Your passwords do not match'
+    elif error_code == 'password_too_short':
+        return 'Password is too short'
+    elif error_code == 'password_too_common':
+        return 'Password is too obvious'
+    else:
+        return 'Erreur de mot de passe.'
+    

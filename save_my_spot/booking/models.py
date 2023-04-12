@@ -43,3 +43,14 @@ class Airport(models.Model):
 
     def __str__(self):
         return self.username
+    
+class Calendar(models.Model):
+    location = models.CharField(max_length=12, choices=LOCATIONS)
+    event_type_slug = models.CharField(max_length=100)
+    subscribers = models.ManyToManyField(User, related_name='subscribed_calendars', blank=True)
+    is_airport_man = models.BooleanField(default=False)
+
+class Reservation(models.Model):
+    calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reserved_date = models.DateTimeField()
